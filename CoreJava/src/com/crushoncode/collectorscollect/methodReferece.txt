@@ -1,0 +1,60 @@
+✅ What is :: (Method Reference)?
+The :: operator is a method reference — a shorthand for a lambda expression that calls a constructor or method.
+
+🔸 Real-World Example – Object Creation with ClassName::new
+👨‍💼 Suppose you have an Employee class:
+
+class Employee {
+    private String name;
+
+    public Employee() {
+        System.out.println("Employee created!");
+    }
+
+    public Employee(String name) {
+        this.name = name;
+        System.out.println("Employee created: " + name);
+    }
+}
+
+
+🔁 Scenario 1: Creating a List of Empty Employees (no args)
+
+import java.util.*;
+import java.util.stream.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Employee> employees = Stream.generate(Employee::new)
+                                         .limit(5)
+                                         .collect(Collectors.toList());
+    }
+}
+
+🔹 Employee::new calls the no-argument constructor.
+🔹 This creates 5 Employee objects.
+
+
+
+📥 Scenario 2: Convert Names to Employee Objects (with arg constructor)
+
+List<String> names = List.of("Anand", "Ravi", "Neha", "Priya");
+
+List<Employee> employeeList = names.stream()
+    .map(Employee::new)  // Same as: name -> new Employee(name)
+    .collect(Collectors.toList());
+🔹 Employee::new calls the constructor that takes a name.
+🔹 For each name, a new Employee object is created.
+
+
+
+
+📦 Another Real-World: Collecting Into a StringBuffer
+
+String data = "Welcome";
+
+StringBuffer buffer = Stream.of(data)
+    .collect(StringBuffer::new, StringBuffer::append, StringBuffer::append);
+🔹 StringBuffer::new — constructor reference
+🔹 StringBuffer::append — method reference
+
